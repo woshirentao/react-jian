@@ -17,6 +17,7 @@ import {
 import { CSSTransition } from 'react-transition-group'
 import { connect } from 'react-redux'
 import { actionCreators } from './store'
+
 class Header extends Component {
     getListArea() {
       
