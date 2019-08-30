@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { 
   HeaderWarpper, 
   Logo, 
@@ -61,7 +62,9 @@ class Header extends Component {
         const { focused, list } = this.props
         return (
             <HeaderWarpper>
-                <Logo href="/" />
+                <Link to="/">
+                  <Logo />
+                </Link>
                 <Nav>
                     <NavItem className="left active">首页</NavItem>
                     <NavItem className="left">下载APP</NavItem>

@@ -2,14 +2,28 @@ import React, { Component } from 'react'
 import { 
   HomeWrapper, 
   HomeLeft,
-  HomeRight
+  HomeRight,
+  BackTop
 } from './style'
 import Topic from './components/Topic';
 import List from './components/List';
 import Recommend from './components/Recommend';
 import Writer from './components/Writer';
+import { connect } from 'react-redux'
+import { actionCreator } from './store'
 
-export default class Home extends Component {
+class Home extends Component {
+  componentDidMount () {
+    //请求数据
+    this.props.changeHomeData()
+    window.addEventListener('scroll', this.props.changeScrollTopShow)
+  }
+  componentWillUnmount () {
+    window.removeEventListener('scroll', this.props.changeScrollTopShow)
+  }
+  handleScrollTop () {
+    window.scrollTo(0, 0)
+  }
     render () {
         return (
           <HomeWrapper>
@@ -22,7 +36,26 @@ export default class Home extends Component {
               <Recommend></Recommend>
               <Writer></Writer>
             </HomeRight>
+            { this.props.showScroll ? <BackTop onClick={this.handleScrollTop}>顶部</BackTop> : null}
           </HomeWrapper>
         )
     }
 }
+const mapState = (state) => ({
+  showScroll: state.home.get('showScroll')
+})
+//此方法必须返回一个对象
+const mapDiapatch = (dispatch) => ({
+  //请求首页数据
+  changeHomeData () {
+    dispatch(actionCreator.getHomeData())
+  },
+  changeScrollTopShow() {
+		if (document.documentElement.scrollTop > 100) {
+			dispatch(actionCreator.toggleTopShow(true))
+		}else {
+			dispatch(actionCreator.toggleTopShow(false))
+		}
+	}
+})
+export default connect(mapState, mapDiapatch)(Home)

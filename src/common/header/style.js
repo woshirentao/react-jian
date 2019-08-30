@@ -8,9 +8,10 @@ export const HeaderWarpper = styled.div`
   border-bottom: 1px solid #f0f0f0;
 `;
 //Logo就是一个a标签，styled.a.attrs可以为组件设置一下属性，也可以在引用组件时再添加属性
-export const Logo = styled.a.attrs({
-  href: "/"
-})`
+// export const Logo = styled.a.attrs({
+//   href: "/"
+// })`
+export const Logo = styled.div`
   position: absolute;
   top: 0;
   left: 0;
