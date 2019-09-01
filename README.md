@@ -1,5 +1,11 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## 性能优化
+异步组件的出现 ：
+原因：默认情况下，所有组件的代码都放在打包生成的bundle.js文件中，所以加载首页时会比较慢
+方式：使用react-loadable库，实现分包加载
+步骤：1、在模块目录下创建loadable.js 2、修改路由配置-使用loadable.js 3、在需要获取路由参数的组件中，引入withRouter方法，使得组件有能力获取到路由信息
+
 ## Available Scripts
 
 In the project directory, you can run:

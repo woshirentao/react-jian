@@ -18,6 +18,7 @@ import {
 import { CSSTransition } from 'react-transition-group'
 import { connect } from 'react-redux'
 import { actionCreators } from './store'
+import { actionCreator as loginActionCreators } from '../../pages/login/store'
 
 class Header extends Component {
     getListArea() {
@@ -59,19 +60,27 @@ class Header extends Component {
       }
     }
     render() {
-        const { focused, list } = this.props
+        const { focused, list, isLogin } = this.props
         return (
             <HeaderWarpper>
                 <Link to="/">
                   <Logo />
                 </Link>
                 <Nav>
-                    <NavItem className="left active">首页</NavItem>
+                    <Link to="/">
+                      <NavItem className="left active">首页</NavItem>
+                    </Link>
                     <NavItem className="left">下载APP</NavItem>
                     <NavItem className="right">
                       <i className="iconfont">&#xe636;</i>
                     </NavItem>
-                    <NavItem className="right">登录</NavItem>
+                    {
+                      isLogin ?
+                      <NavItem className="right" onClick={ this.props.logout }>退出</NavItem> :
+                      <Link to="/login">
+                        <NavItem className="right">登录</NavItem>
+                      </Link>
+                    }
                     <SearchWrapper>
                       <CSSTransition in={focused}
                       timeout={2000}
@@ -84,10 +93,12 @@ class Header extends Component {
                 </Nav>
                 <Addition>
                     <Button className="reg">注册</Button>
-                    <Button className="writting">
-                      <i className="iconfont">&#xe615;</i>
-                      写文章
-                    </Button>
+                    <Link to="/write">
+                      <Button className="writting">
+                        <i className="iconfont">&#xe615;</i>
+                        写文章
+                      </Button>
+                    </Link>
                 </Addition>
             </HeaderWarpper>
         )
@@ -99,7 +110,8 @@ const mapStateToProps = (state) => {
     list: state.header.get('list'),
     page: state.header.get('page'),
     totalPage: state.header.get('totalPage'),
-    mouseEnter: state.header.get('mouseEnter')
+    mouseEnter: state.header.get('mouseEnter'),
+    isLogin: state.login.get('login')
 	}
 }
 
@@ -136,7 +148,10 @@ const mapDispathToProps = (dispatch) => {
       }else {
         dispatch(actionCreators.changePage(1))
       }
-    }
+    },
+    logout() {
+			dispatch(loginActionCreators.logout())
+		}
 	}
 }
 export default connect(mapStateToProps, mapDispathToProps)(Header)
